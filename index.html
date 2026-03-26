@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sipira Shop - Produk Terlengkap</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --accent-color: #f59e0b;
+            --danger-color: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: #333;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Maintenance Mode */
+        .maintenance-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .maintenance-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #f59e0b;
+        }
+
+        .maintenance-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37,211,102,0.4);
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37,211,102,0.6);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Products Grid */
+        .products-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .product-desc {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-order {
+            flex: 1;
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-order:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        /* Popup Ad */
+        .popup-ad {
+            position: fixed;
+            top: 20%;
+            right: -400px;
+            width: 350px;
+            height: 400px;
+            background: white;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+            border-radius: 20px 0 0 20px;
+            z-index: 1001;
+            transition: all 0.5s ease;
+            overflow: hidden;
+        }
+
+        .popup-ad.show {
+            right: 0;
+        }
+
+        .popup-ad img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .products-grid { grid-template-columns: 1fr; }
+            .nav-container { flex-direction: column; gap: 1rem; }
+        }
+
+        /* Custom Background */
+        .custom-bg {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="custom-bg">
+    <!-- Maintenance Overlay -->
+    <div id="maintenanceOverlay" class="maintenance-overlay" style="display: none;">
+        <div class="maintenance-content">
+            <h1><i class="fas fa-tools"></i> Maintenance</h1>
+            <p id="maintenanceText">Server sedang dalam maintenance. Mohon maaf atas ketidaknyamanannya.</p>
+        </div>
+    </div>
+
+    <!-- Popup Ad -->
+    <div id="popupAd" class="popup-ad">
+        <button class="popup-close" onclick="closePopup()">×</button>
+        <img id="popupAdImg" src="" alt="Iklan" style="display: none;">
+        <div id="popupAdContent" style="padding: 20px; text-align: center; display: none;">
+            <h3 id="popupAdTitle">Iklan</h3>
+            <p id="popupAdDesc">Deskripsi iklan akan muncul di sini</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-store"></i> Sipira Shop
+            </div>
+            <a href="https://wa.me/6281234567890" id="whatsappBtn" class="whatsapp-btn" target="_blank">
+                <i class="fab fa-whatsapp"></i> Chat WA
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>🛒 Selamat Datang di Sipira Shop</h1>
+        <p>Temukan produk terbaik dengan harga terjangkau. Pesan sekarang via WhatsApp!</p>
+    </section>
+
+    <!-- Products -->
+    <section class="products-section">
+        <h2 class="section-title">Produk Terlaris</h2>
+        <div id="productsGrid" class="products-grid">
+            <!-- Products akan dimuat dari localStorage -->
+        </div>
+    </section>
+
+    <script>
+        // Load settings dari localStorage
+        const settings = JSON.parse(localStorage.getItem('sipiraSettings')) || {
+            maintenance: false,
+            maintenanceText: 'Server sedang dalam maintenance. Mohon maaf atas ketidaknyamanannya.',
+            whatsapp: '6281234567890',
+            background: '',
+            popupAd: {
+                enabled: false,
+                image: '',
+                title: 'Iklan Spanduk',
+                desc: 'Klik untuk info lebih lanjut!'
+            },
+            products: [
+                {
+                    id: 1,
+                    title: 'iPhone 15 Pro Max',
+                    price: 'Rp 18.999.000',
+                    desc: '256GB - Natural Titanium. Kondisi baru, fullset, garansi resmi.',
+                    image: 'https://images.unsplash.com/photo-1695906323542-92d4a8281a82?w=400&h=300&fit=crop'
+                },
+                {
+                    id: 2,
+                    title: 'Samsung Galaxy S24 Ultra',
+                    price: 'Rp 16.499.000',
+                    desc: '512GB - Titanium Black. Kamera 200MP, S-Pen included.',
+                    image: 'https://images.unsplash.com/photo-1702426065382-563c2a8f6885?w=400&h=300&fit=crop'
+                },
+                {
+                    id: 3,
+                    title: 'MacBook Pro M3',
+                    price: 'Rp 28.999.000',
+                    desc: '16" - 18GB RAM - 1TB SSD. Kondisi mulus 99%.',
+                    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop'
+                }
+            ]
+        };
+
+        // Apply settings
+        function applySettings() {
+            // Maintenance mode
+            const maintenanceOverlay = document.getElementById('maintenanceOverlay');
+            const maintenanceText = document.getElementById('maintenanceText');
+            
+            if (settings.maintenance) {
+                maintenanceOverlay.style.display = 'flex';
+                maintenanceText.textContent = settings.maintenanceText;
+            } else {
+                maintenanceOverlay.style.display = 'none';
+            }
+
+            // WhatsApp number
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            whatsappBtn.href = `https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, '')}`;
+
+            // Background
+            if (settings.background) {
+                document.body.style.backgroundImage = `url(${settings.background})`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundPosition = 'center';
+                document.body.style.backgroundAttachment = 'fixed';
+            }
+
+            // Popup Ad
+            if (settings.popupAd.enabled && settings.popupAd.image) {
+                setTimeout(() => {
+                    showPopupAd();
+                }, 3000);
+            }
+
+            // Load products
+            loadProducts();
+        }
+
+        // Load products
+        function loadProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = '';
+
+            settings.products.forEach(product => {
+                const productCard = `
+                    <div class="product-card">
+                        <img src="${product.image}" alt="${product.title}" class="product-image">
+                        <h3 class="product-title">${product.title}</h3>
+                        <div class="product-price">${product.price}</div>
+                        <p class="product-desc">${product.desc}</p>
+                        <div class="product-actions">
+                            <a href="https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, '')}?text=Saya%20mau%20pesan%20${encodeURIComponent(product.title)}%20-%20${encodeURIComponent(product.price)}" 
+                               class="btn-order" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Pesan Sekarang
+                            </a>
+                        </div>
+                    </div>
+                `;
+                productsGrid.innerHTML += productCard;
+            });
+        }
+
+        // Popup functions
+        function showPopupAd() {
+            const popup = document.getElementById('popupAd');
+            const img = document.getElementById('popupAdImg');
+            const content = document.getElementById('popupAdContent');
+            
+            img.src = settings.popupAd.image;
+            img.style.display = 'block';
+            document.getElementById('popupAdTitle').textContent = settings.popupAd.title;
+            document.getElementById('popupAdDesc').textContent = settings.popupAd.desc;
+            
+            popup.classList.add('show');
+        }
+
+        function closePopup() {
+            document.getElementById('popupAd').classList.remove('show');
+        }
+
+        // Initialize
+        applySettings();
+
+        // Simpan settings ke localStorage setiap 10 detik (untuk sync dengan admin)
+        setInterval(() => {
+            localStorage.setItem('sipiraSettings', JSON.stringify(settings));
+        }, 10000);
+    </script>
+</body>
+</html>
